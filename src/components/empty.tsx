@@ -15,8 +15,8 @@ export default function Empty({
   onActionClick,
 }: EmptyProps) {
   return (
-    <div className="h-screen w-full md:px-24 flex justify-center items-center">
-      <Alert className="flex flex-col items-center justify-center gap-2">
+    <div className=" absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex justify-center items-center">
+      <Alert className="flex flex-col items-center justify-center px-20 gap-2">
         <InfoIcon className="h-6 w-6 text-blue-500" />
         <AlertTitle>{title}</AlertTitle>
         <AlertDescription>

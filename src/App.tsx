@@ -101,7 +101,15 @@ export default function Page() {
           <SidebarTrigger className="-ml-1" />
           <Separator orientation="vertical" className="mr-2 h-4" />
         </header>
-        {!isLoading && !isError && isActive.title === "View Jobs"  && filteredJobs.length === 0 && (
+        
+        {isActive.title === "View Jobs" ? (
+          <div className="flex flex-1 relative flex-col gap-4 p-4">
+            <div className="mb-4">
+              <StatusFilter onFilterChange={handleFilterChange} />
+            </div>
+            <div className="grid auto-rows-min gap-4 md:grid-cols-3">
+              {isLoading && <Skeleton />}
+              {!isLoading && !isError && isActive.title === "View Jobs"  && filteredJobs.length === 0 && (
           <Empty
             title="No Jobs Found"
             description="You currently have no jobs to display."
@@ -109,13 +117,6 @@ export default function Page() {
             onActionClick={() => setIsActive({ index: 1, title: "Add Job" })}
           />
         )}
-        {isActive.title === "View Jobs" ? (
-          <div className="flex flex-1 flex-col gap-4 p-4">
-            <div className="mb-4">
-              <StatusFilter onFilterChange={handleFilterChange} />
-            </div>
-            <div className="grid auto-rows-min gap-4 md:grid-cols-3">
-              {isLoading && <Skeleton />}
 
               {isError && (
                 <div className="flex flex-col items-center justify-center gap-4 p-4">
