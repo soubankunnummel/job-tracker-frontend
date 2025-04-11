@@ -11,9 +11,11 @@ import { Button } from "./components/ui/button";
 import { toast } from "sonner";
 import { useQueryClient } from "@tanstack/react-query";
 import { useMemo, useState } from "react";
-import {AddJob} from "./components/add-job-form";
+import { AddJob } from "./components/add-job-form";
 import { Job } from "./types/job";
 import { StatusFilter } from "./components/status-filter";
+import Skeleton from "./components/skeleton ";
+import Empty from "./components/empty";
 
 export default function Page() {
   const { data, isError, isLoading } = useJob();
@@ -31,7 +33,7 @@ export default function Page() {
   const filteredJobs = useMemo(() => {
     if (!data) return [];
     if (statusFilter === "all") return data;
-    return data.filter((job:Job) => job.status === statusFilter);
+    return data.filter((job: Job) => job.status === statusFilter);
   }, [data, statusFilter]);
 
   const handleUpdate = (id: string, status: string) => {
@@ -87,10 +89,9 @@ export default function Page() {
     );
   };
 
-  const handleFilterChange = (status:string) => {
+  const handleFilterChange = (status: string) => {
     setStatusFilter(status);
   };
-
 
   return (
     <SidebarProvider>
@@ -100,19 +101,21 @@ export default function Page() {
           <SidebarTrigger className="-ml-1" />
           <Separator orientation="vertical" className="mr-2 h-4" />
         </header>
+        {!isLoading && !isError && isActive.title === "View Jobs"  && filteredJobs.length === 0 && (
+          <Empty
+            title="No Jobs Found"
+            description="You currently have no jobs to display."
+            actionText="Add"
+            onActionClick={() => setIsActive({ index: 1, title: "Add Job" })}
+          />
+        )}
         {isActive.title === "View Jobs" ? (
           <div className="flex flex-1 flex-col gap-4 p-4">
-              <div className="mb-4">
+            <div className="mb-4">
               <StatusFilter onFilterChange={handleFilterChange} />
             </div>
             <div className="grid auto-rows-min gap-4 md:grid-cols-3">
-              {isLoading && (
-                <>
-                  <div className="aspect-video rounded-xl bg-muted/50" />
-                  <div className="aspect-video rounded-xl bg-muted/50" />
-                  <div className="aspect-video rounded-xl bg-muted/50" />
-                </>
-              )}
+              {isLoading && <Skeleton />}
 
               {isError && (
                 <div className="flex flex-col items-center justify-center gap-4 p-4">
@@ -122,8 +125,8 @@ export default function Page() {
                   </Button>
                 </div>
               )}
-               
-               {!isLoading &&
+
+              {!isLoading &&
                 !isError &&
                 filteredJobs.map((item: Job, index: number) => (
                   <JobCard
@@ -136,9 +139,9 @@ export default function Page() {
             </div>
           </div>
         ) : (
-         <div className="p-5 md:mx-24">
-           <AddJob   />
-         </div>
+          <div className="p-5 md:mx-24">
+            <AddJob />
+          </div>
         )}
       </SidebarInset>
     </SidebarProvider>

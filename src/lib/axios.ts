@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "https://job-tracker-backend-xwvk.onrender.com/api/v1/", // Replace with your AP
+  baseURL: "https://job-tracker-backend-xwvk.onrender.com/api/v1/",  
   timeout: 10000, // Request timeout in milliseconds
   headers: {
     "Content-Type": "application/json",

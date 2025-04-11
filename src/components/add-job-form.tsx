@@ -57,7 +57,7 @@ export function AddJob() {
       createdAt: new Date(),
       status: "Applied", // Default status
     };
-    console.log(values)
+    console.log(values);
 
     // Call the parent's onSubmit function with the form data
     // if (onSubmitProp) {
@@ -71,7 +71,7 @@ export function AddJob() {
       },
       onError: (error: any) => {
         toast.error(error?.response?.data?.message || "An error occurred");
-      }
+      },
     });
 
     // Show success message
